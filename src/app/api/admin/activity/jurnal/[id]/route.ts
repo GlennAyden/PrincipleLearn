@@ -2,13 +2,11 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import prisma from '@/lib/prisma'
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest) {
   try {
-    // Ensure params is awaited before accessing its properties
-    const id = params.id
+    // Ambil id dari URL
+    const url = new URL(req.url)
+    const id = url.pathname.split('/').pop()
 
     // Fetch journal entry by ID
     const journal = await prisma.jurnalRefleksi.findUnique({
