@@ -3,15 +3,8 @@ import { NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 import prisma from '@/lib/prisma';
 
-// 1. Ambil API key dari env
-let apiKey = process.env.OPENAI_API_KEY;
-// 2. Fallback ke admin key kalau perlu
-if (!apiKey || apiKey.startsWith('sk-proj-')) {
-  console.warn(
-    'Env key invalid or missing, falling back to hardcoded admin key for testing'
-  );
-  apiKey = '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';
-}
+// Ambil API key dari env
+const apiKey = process.env.OPENAI_API_KEY;
 
 const openai = new OpenAI({ apiKey });
 

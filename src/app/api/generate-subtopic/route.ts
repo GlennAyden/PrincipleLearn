@@ -4,15 +4,7 @@ import { NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 
 // Ambil API key dari env
-let apiKey = process.env.OPENAI_API_KEY;
-// Fallback ke admin key kalau perlu (jika env kosong atau dev key prefix 'sk-proj-')
-if (!apiKey || apiKey.startsWith('sk-proj-')) {
-  console.warn(
-    'Env key invalid atau missing, falling back to hardcoded admin key for subtopic'
-  );
-  apiKey =
-    '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';
-}
+const apiKey = process.env.OPENAI_API_KEY;
 
 const openai = new OpenAI({ apiKey });
 

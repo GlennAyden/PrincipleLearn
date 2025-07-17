@@ -60,8 +60,8 @@ Buat file `.env.local` di folder `principle-learn`:
 ```env
 # Database
 DATABASE_URL="postgresql://username:password@localhost:5432/principle_learn"
-# Atau untuk Supabase/Neon:
-# DATABASE_URL="postgresql://postgres:[password]@[host]:5432/postgres"
+# Untuk Neon, isi NEON_DATABASE_URL dan biarkan DATABASE_URL sebagai cadangan:
+# NEON_DATABASE_URL="postgresql://user:password@neon-host/dbname"
 
 # JWT Secret (bisa pakai string acak)
 JWT_SECRET="your-super-secret-jwt-key-here"
@@ -73,6 +73,8 @@ OPENAI_API_KEY="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 EMAIL_USER="your-email@gmail.com"
 EMAIL_PASS="your-app-password"
 ```
+
+Jika dideploy di **Netlify**, atur variable environment yang sama pada dashboard Netlify. Masukkan `NEON_DATABASE_URL` dengan connection string dari Neon atau `DATABASE_URL` untuk koneksi PostgreSQL lainnya.
 
 #### Cara Dapatkan API Keys:
 
@@ -122,7 +124,7 @@ Buka browser dan akses: **http://localhost:3000**
 
 ### Error "Database connection failed"
 - Pastikan PostgreSQL berjalan
-- Cek `DATABASE_URL` sudah benar
+ - Cek `DATABASE_URL` atau `NEON_DATABASE_URL` sudah benar
 - Pastikan database `principle_learn` sudah dibuat
 
 ### Error "OpenAI API key invalid"
