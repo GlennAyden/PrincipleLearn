@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from bcryptjs';
+import bcrypt from 'bcryptjs';
 import { generateAccessToken, generateRefreshToken, getTokenExpiration } from '@/lib/jwt';
 import { validateEmail } from '@/lib/validation';
 import { loginRateLimiter } from '@/lib/rate-limit';
@@ -159,8 +159,6 @@ export async function POST(req: Request) {
     });
     
     // Add CSRF token to response body
-    response.cookies.set = response.cookies.set || {};
-    response.cookies.set.csrfToken = csrfToken;
 
     return response;
   } catch (error: any) {
