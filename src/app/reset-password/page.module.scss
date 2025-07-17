@@ -1,0 +1,122 @@
+/* src/app/reset-password/page.module.scss */
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  
+  /* 2. Container (card biru) */
+  .container {
+    width: 100%;
+    max-width: 400px;
+    background: #1e78c0;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    color: white;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .field {
+    margin-bottom: 1.25rem;
+  }
+  
+  .label {
+    display: block;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 1rem;
+  }
+  
+  .resetBtn {
+    width: 100%;
+    background: #111827;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.2s;
+  }
+  .resetBtn:hover {
+    background: #1f2937;
+  }
+  
+  .resetBtn:disabled {
+    background: #6b7280;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  
+  .resetBtn:disabled:hover {
+    background: #6b7280;
+  }
+  
+  .backLink {
+    display: block;
+    margin-top: 1.5rem;
+    text-align: center;
+    color: white;
+    font-size: 0.875rem;
+    text-decoration: underline;
+  }
+  
+  .error {
+    background: rgba(239, 68, 68, 0.9);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  
+  .message {
+    background: rgba(34, 197, 94, 0.9);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  
+  .emailInfo {
+    background: rgba(59, 130, 246, 0.9);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  
+  .emailInfo p {
+    margin: 0;
+  }
+  
+  .emailInfo strong {
+    font-weight: 700;
+  }
+  

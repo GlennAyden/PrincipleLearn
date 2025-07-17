@@ -1,0 +1,129 @@
+# Media Pembelajaran dengan AI - Requirements
+# File ini berisi semua dependencies yang diperlukan
+
+# ========================================
+# SOFTWARE REQUIREMENTS
+# ========================================
+
+# Node.js (versi 18 atau lebih baru)
+# Download dari: https://nodejs.org/
+
+# PostgreSQL Database
+# - Local: Install PostgreSQL di komputer
+# - Cloud: Supabase (https://supabase.com) atau Neon (https://neon.tech)
+
+# Git (untuk clone repository)
+# Download dari: https://git-scm.com/
+
+# ========================================
+# NPM DEPENDENCIES (akan diinstall otomatis)
+# ========================================
+
+# Core Framework
+next==15.3.1
+react==19.0.0
+react-dom==19.0.0
+
+# Database
+@prisma/client==6.7.0
+prisma==6.7.0
+
+# Authentication & Security
+bcrypt==5.1.1
+bcryptjs==3.0.2
+jsonwebtoken==9.0.2
+
+# Email Service
+nodemailer==7.0.3
+
+# AI Integration
+openai==4.96.0
+
+# UI Components
+react-icons==5.5.0
+recharts==2.15.3
+
+# Styling
+sass==1.87.0
+
+# Development Tools
+typescript==5
+eslint==9
+eslint-config-next==15.3.1
+
+# ========================================
+# ENVIRONMENT VARIABLES (WAJIB DIISI)
+# ========================================
+
+# Database Configuration
+DATABASE_URL=postgresql://username:password@localhost:5432/principle_learn
+
+# JWT Secret (untuk autentikasi)
+JWT_SECRET=your-super-secret-jwt-key-here
+
+# OpenAI API Key (untuk fitur AI)
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Email Configuration (untuk verifikasi email)
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+
+# ========================================
+# SETUP INSTRUCTIONS
+# ========================================
+
+# 1. Install Node.js (versi 18+)
+# 2. Clone repository
+# 3. cd principle-learn
+# 4. npm install
+# 5. Buat file .env.local dengan environment variables di atas
+# 6. Setup database PostgreSQL
+# 7. npx prisma generate
+# 8. npx prisma db push
+# 9. npm run dev
+
+# ========================================
+# API KEYS REQUIRED
+# ========================================
+
+# OpenAI API Key:
+# - Buka https://platform.openai.com/
+# - Sign up/Login
+# - API Keys > Create new secret key
+
+# Gmail App Password:
+# - Buka https://myaccount.google.com/security
+# - Aktifkan 2-Step Verification
+# - App passwords > Generate password untuk Mail
+
+# ========================================
+# DATABASE SETUP
+# ========================================
+
+# Opsi A: Database Lokal
+# - Install PostgreSQL
+# - Buat database: principle_learn
+# - Update DATABASE_URL
+
+# Opsi B: Database Cloud (Rekomendasi)
+# - Supabase: https://supabase.com (gratis)
+# - Neon: https://neon.tech (gratis)
+# - Copy connection string ke DATABASE_URL
+
+# ========================================
+# TROUBLESHOOTING
+# ========================================
+
+# Jika ada error "Module not found":
+# rm -rf node_modules package-lock.json
+# npm install
+
+# Jika ada error database:
+# - Cek PostgreSQL berjalan
+# - Cek DATABASE_URL benar
+# - Cek database principle_learn sudah dibuat
+
+# Jika ada error OpenAI:
+# - Cek OPENAI_API_KEY benar
+# - Cek ada credit di akun OpenAI
+# - Cek internet connection 
