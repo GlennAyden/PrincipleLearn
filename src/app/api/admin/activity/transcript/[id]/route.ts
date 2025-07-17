@@ -4,11 +4,11 @@ import prisma from '@/lib/prisma'
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: any }
 ) {
   try {
     // Ensure params is awaited before accessing its properties
-    const id = params.id
+    const id = context.params.id
 
     // Fetch transcript by ID
     const transcript = await prisma.transcriptQna.findUnique({

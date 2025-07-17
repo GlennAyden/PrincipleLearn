@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: any }
 ) {
   try {
-    const id = params.id;
+    const { id } = context.params;
 
     // Fetch quiz attempt with detailed answers
     const attempt = await prisma.quizAttempt.findUnique({
