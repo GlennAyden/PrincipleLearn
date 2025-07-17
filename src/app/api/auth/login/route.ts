@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import prisma from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
+import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from bcryptjs';
 import { generateAccessToken, generateRefreshToken, getTokenExpiration } from '@/lib/jwt';
 import { validateEmail } from '@/lib/validation';
 import { loginRateLimiter } from '@/lib/rate-limit';
 import { randomBytes } from 'crypto';
+import prisma from '@/lib/prisma';
 
 export async function POST(req: Request) {
   try {

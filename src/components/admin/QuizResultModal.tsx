@@ -32,16 +32,15 @@ interface QuizResultModalProps {
 }
 
 export default function QuizResultModal({ isOpen, quizLog, onClose }: QuizResultModalProps) {
-  if (!isOpen || !quizLog) return null
-
-  const { id: quizId } = quizLog
   const [answers, setAnswers] = useState<QuizAnswer[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!isOpen || !quizLog) return
+    
     setLoading(true)
-    fetch(`/api/admin/activity/quiz/${quizId}`, { credentials: 'include' })
+    fetch(`/api/admin/activity/quiz/${quizLog.id}`, { credentials: 'include' })
       .then((res) => {
         if (!res.ok) throw new Error('Gagal memuat hasil quiz')
         return res.json() as Promise<QuizResultResponse>
@@ -49,7 +48,11 @@ export default function QuizResultModal({ isOpen, quizLog, onClose }: QuizResult
       .then((data) => setAnswers(data.result))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
-  }, [quizId])
+  }, [isOpen, quizLog])
+
+  if (!isOpen || !quizLog) return null
+
+  const { id: quizId } = quizLog
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
