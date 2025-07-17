@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env FAST_REFRESH=false next dev",
-    "build": "next build --no-lint",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
