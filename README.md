@@ -49,9 +49,6 @@ npm install
 1. **Supabase** (Gratis): https://supabase.com
    - Sign up dan buat project baru
    - Copy connection string dari Settings > Database
-2. **Neon** (Gratis): https://neon.tech
-   - Sign up dan buat database
-   - Copy connection string
 
 ### 4. Setup Environment Variables
 
@@ -60,7 +57,7 @@ Buat file `.env.local` di folder `principle-learn`:
 ```env
 # Database
 DATABASE_URL="postgresql://username:password@localhost:5432/principle_learn"
-# Atau untuk Supabase/Neon:
+# Atau untuk Supabase:
 # DATABASE_URL="postgresql://postgres:[password]@[host]:5432/postgres"
 
 # JWT Secret (bisa pakai string acak)
@@ -163,6 +160,11 @@ principle-learn/
 3. Set Root Directory: `principle-learn`
 4. Tambahkan Environment Variables
 5. Deploy!
+
+### Netlify
+1. Set build command ke `npm run build`
+2. Pastikan variable lingkungan seperti `DATABASE_URL` sudah diisi
+3. Build script akan otomatis menjalankan `prisma generate`
 
 ### Railway/Render
 1. Connect repository
