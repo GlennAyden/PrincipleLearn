@@ -1,4 +1,10 @@
-// src/lib/prisma.ts
+/**
+ * Initialize the Prisma client.
+ *
+ * Uses `NEON_DATABASE_URL` when set (e.g. on Neon or Netlify) and falls back to
+ * `DATABASE_URL` or a local PostgreSQL instance. When the generated client is
+ * unavailable, a simple mock is provided so that Next.js builds do not fail.
+ */
 let PrismaClient: any
 let Prisma: any
 let prisma: any
@@ -52,4 +58,5 @@ if (process.env.NODE_ENV !== 'production') {
   global.prisma = prisma
 }
 
+export { Prisma };
 export default prisma;
