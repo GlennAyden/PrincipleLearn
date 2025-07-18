@@ -7,6 +7,7 @@ import Link from 'next/link';
 import styles from './page.module.scss';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { migrateCourses } from '@/lib/migrateCourses';
+import { supabase } from '@/lib/supabaseClient';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -40,32 +41,21 @@ export default function LoginPage() {
     setIsLoading(true);
     
     try {
-      // Call the login API
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      // Login via Supabase Auth
+      const { data, error: supaError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
+      if (supaError) {
+        throw new Error(supaError.message);
       }
-      
-      // Save user data in localStorage
-      setUser({ 
-        email: data.user.email,
-        id: data.user.id,
-        role: data.user.role
+      // Simpan user ke localStorage
+      setUser({
+        email: data.user?.email || email,
+        id: data.user?.id,
+        role: data.user?.role || 'USER',
       });
-      
-      // Migrate any global courses to this user
       migrateCourses(email);
-      
-      // Redirect based on whether user has courses
       if (courses.length > 0) {
         router.replace('/dashboard');
       } else {

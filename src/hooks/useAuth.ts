@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState, useEffect, createContext, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 

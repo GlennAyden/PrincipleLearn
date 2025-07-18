@@ -1,36 +1,29 @@
-# 🎓 Media Pembelajaran dengan AI
+# Principle Learn - Media Pembelajaran dengan AI
 
-Aplikasi pembelajaran interaktif yang menggunakan AI untuk generate course, quiz, dan fitur pembelajaran lainnya.
+Aplikasi web untuk pembelajaran interaktif yang menggunakan AI untuk menghasilkan konten pembelajaran, quiz, dan fitur-fitur edukasi lainnya.
 
 ## 🚀 Fitur Utama
 
-- ✅ **Sistem Autentikasi** - Login/Register dengan verifikasi email
-- ✅ **Generate Course dengan AI** - Membuat materi pembelajaran otomatis
-- ✅ **Quiz System** - Quiz interaktif dengan scoring
-- ✅ **Jurnal Refleksi** - Fitur menulis jurnal pembelajaran
-- ✅ **Ask Question** - Tanya jawab dengan AI
-- ✅ **Challenge Thinking** - Latihan berpikir kritis
-- ✅ **Admin Dashboard** - Panel admin untuk monitoring
-- ✅ **Responsive Design** - Bekerja di desktop dan mobile
+- **Generasi Kursus Otomatis** - AI menghasilkan konten pembelajaran berdasarkan parameter
+- **Sistem Quiz Interaktif** - Quiz otomatis dengan feedback
+- **Jurnal Refleksi** - Sistem pencatatan pembelajaran
+- **Sistem Autentikasi** - Login, register, dan manajemen user
+- **Dashboard Admin** - Panel admin untuk mengelola konten dan user
+- **Fitur AI** - Tanya jawab dengan AI, feedback otomatis
 
-## 📋 Requirements
+## 📋 Prasyarat
 
-### Software yang Diperlukan:
 - **Node.js** (versi 18 atau lebih baru)
 - **npm** atau **yarn**
-- **PostgreSQL** database
-- **Git**
+- **PostgreSQL** database (lokal atau cloud)
+- **OpenAI API Key**
 
-### API Keys yang Diperlukan:
-- **OpenAI API Key** - Untuk fitur AI
-- **Email Service** - Gmail atau service email lainnya
-
-## 🛠️ Cara Setup Lokal
+## 🛠️ Instalasi
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/GlennAyden/mediaPembelajaran.git
-cd mediaPembelajaran/principle-learn
+git clone <URL_REPOSITORY>
+cd principle-learn
 ```
 
 ### 2. Install Dependencies
@@ -38,144 +31,221 @@ cd mediaPembelajaran/principle-learn
 npm install
 ```
 
-### 3. Setup Database PostgreSQL
+### 3. Setup Database
 
 #### Opsi A: Database Lokal
-1. Install PostgreSQL di komputer Anda
-2. Buat database baru: `principle_learn`
-3. Catat username, password, dan port (biasanya 5432)
+```bash
+# Buat database PostgreSQL
+psql -U postgres
+CREATE DATABASE principle_learn;
+\q
 
-#### Opsi B: Database Cloud (Rekomendasi)
-1. **Supabase** (Gratis): https://supabase.com
-   - Sign up dan buat project baru
-   - Copy connection string dari Settings > Database
-2. **Neon** (Gratis): https://neon.tech
-   - Sign up dan buat database
-   - Copy connection string
+# Jalankan migrations (UNTUK DATABASE LOKAL)
+npx prisma migrate dev
+```
 
-### 4. Setup Environment Variables
+#### Opsi B: Supabase (Rekomendasi)
+1. Buat akun di [Supabase](https://supabase.com)
+2. Buat project baru
+3. Dapatkan connection string dari Settings > Database
+4. Update `DATABASE_URL` di `.env.local`
+5. Jalankan: `npx prisma db push` (UNTUK SUPABASE)
 
-Buat file `.env.local` di folder `principle-learn`:
+Lihat [SUPABASE_SETUP.md](SUPABASE_SETUP.md) untuk panduan lengkap.
 
+### 4. Environment Variables
+Buat file `.env.local`:
 ```env
-# Database
-DATABASE_URL="postgresql://username:password@localhost:5432/principle_learn"
-# Atau untuk Supabase/Neon:
+# Database URL (lokal atau Supabase)
+DATABASE_URL="postgresql://postgres:password@localhost:5432/principle_learn"
+# Atau untuk Supabase:
 # DATABASE_URL="postgresql://postgres:[password]@[host]:5432/postgres"
 
-# JWT Secret (bisa pakai string acak)
-JWT_SECRET="your-super-secret-jwt-key-here"
-
-# OpenAI API Key
-OPENAI_API_KEY="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-# Email Configuration (Gmail)
+JWT_SECRET="your-secret-key"
+OPENAI_API_KEY="your-openai-api-key"
 EMAIL_USER="your-email@gmail.com"
 EMAIL_PASS="your-app-password"
 ```
 
-#### Cara Dapatkan API Keys:
-
-**OpenAI API Key:**
-1. Buka https://platform.openai.com/
-2. Sign up/Login
-3. Buka menu "API Keys"
-4. Create new secret key
-5. Copy dan paste ke `OPENAI_API_KEY`
-
-**Gmail App Password:**
-1. Buka https://myaccount.google.com/security
-2. Aktifkan "2-Step Verification"
-3. Buka "App passwords"
-4. Generate password untuk "Mail"
-5. Copy dan paste ke `EMAIL_PASS`
-
-### 5. Setup Database Schema
-```bash
-npx prisma generate
-npx prisma db push
-```
-
-### 6. Jalankan Aplikasi
+### 5. Jalankan Aplikasi
 ```bash
 npm run dev
 ```
 
-Buka browser dan akses: **http://localhost:3000**
+Buka: http://localhost:3000
 
-## 👥 Cara Penggunaan
+## ⚠️ PENTING: Perbedaan Command Database
 
-### Untuk User Baru:
-1. **Register** - Buat akun baru
-2. **Request Course** - Pilih topik yang ingin dipelajari
-3. **Belajar** - Ikuti materi yang di-generate AI
-4. **Quiz** - Test pemahaman dengan quiz
-5. **Jurnal** - Tulis refleksi pembelajaran
-
-### Untuk Admin:
-1. Login dengan akun admin
-2. Akses dashboard admin di `/admin`
-3. Monitor aktivitas user
-4. Kelola konten dan sistem
-
-## 🔧 Troubleshooting
-
-### Error "Database connection failed"
-- Pastikan PostgreSQL berjalan
-- Cek `DATABASE_URL` sudah benar
-- Pastikan database `principle_learn` sudah dibuat
-
-### Error "OpenAI API key invalid"
-- Cek `OPENAI_API_KEY` sudah benar
-- Pastikan ada credit di akun OpenAI
-- Cek internet connection
-
-### Error "Email not sent"
-- Pastikan `EMAIL_USER` dan `EMAIL_PASS` benar
-- Untuk Gmail, pastikan sudah setup App Password
-- Cek firewall tidak memblokir port 587/465
-
-### Error "Module not found"
+### Untuk Database Lokal:
 ```bash
-rm -rf node_modules package-lock.json
-npm install
+npx prisma migrate dev    # Buat dan jalankan migration
 ```
+
+### Untuk Supabase:
+```bash
+npx prisma db push        # Push schema langsung ke database
+```
+
+**JANGAN gunakan `npx migrate` - command ini salah!**
+
+## 🔑 API Keys
+
+### OpenAI API Key
+1. Buka https://platform.openai.com/api-keys
+2. Create new secret key
+3. Copy ke `OPENAI_API_KEY`
+
+### Email Configuration
+1. Aktifkan 2-Step Verification di Google Account
+2. Generate App Password untuk "Mail"
+3. Copy ke `EMAIL_USER` dan `EMAIL_PASS`
+
+## 🔑 Supabase Auth (Baru)
+
+Aplikasi ini sekarang menggunakan Supabase Auth untuk login dan signup. Semua user baru dan lama harus login menggunakan email & password yang terdaftar di Supabase Auth.
+
+### Setup Supabase Auth
+1. Buka dashboard Supabase project Anda
+2. Masuk ke menu Authentication > Users
+3. Tambahkan user secara manual (atau user bisa signup sendiri via aplikasi)
+4. Pastikan email dan password benar
+
+### Environment Variable
+Tambahkan ke `.env.local`:
+```
+SUPABASE_URL="https://db.obwmrdrhctzbezrdmoil.supabase.co"
+SUPABASE_ANON_KEY="<your-anon-key>"
+```
+
+### Login/Signup
+- Login dan signup hanya via Supabase Auth (bukan lagi via API custom/Prisma)
+- Jika lupa password, gunakan fitur reset password Supabase Auth
 
 ## 📁 Struktur Project
 
 ```
 principle-learn/
 ├── src/
-│   ├── app/           # Next.js App Router
-│   ├── components/    # React Components
-│   ├── lib/          # Utilities & Config
-│   └── hooks/        # Custom Hooks
-├── prisma/           # Database Schema
-├── public/           # Static Files
-└── package.json
+│   ├── app/                 # Next.js App Router
+│   │   ├── api/            # API endpoints
+│   │   ├── admin/          # Admin dashboard
+│   │   ├── course/         # Course pages
+│   │   └── ...
+│   ├── components/         # React components
+│   ├── lib/               # Utilities & configurations
+│   └── hooks/             # Custom React hooks
+├── prisma/                # Database schema & migrations
+├── public/                # Static assets
+└── ...
 ```
 
-## 🚀 Deploy ke Production
+## 🎯 Cara Penggunaan
 
-### Vercel (Rekomendasi)
-1. Push ke GitHub
-2. Import di Vercel
-3. Set Root Directory: `principle-learn`
-4. Tambahkan Environment Variables
-5. Deploy!
+### User Features
+- Register/Login
+- Request course dengan AI
+- Kerjakan quiz
+- Tulis jurnal refleksi
+- Tanya jawab dengan AI
 
-### Railway/Render
-1. Connect repository
-2. Setup PostgreSQL addon
-3. Configure environment variables
-4. Deploy
+### Admin Features
+- Login sebagai admin
+- Kelola user dan konten
+- Monitor aktivitas
+- View analytics
+
+## 📝 Scripts
+
+```bash
+npm run dev          # Development server
+npm run dev:no-lint  # Development server tanpa linting (untuk mengatasi ESLint errors)
+npm run build        # Build untuk production
+npm run start        # Start production server
+npm run lint         # Linting
+```
+
+## 🔧 Development
+
+### Database Commands
+```bash
+# Generate Prisma client
+npx prisma generate
+
+# Database lokal
+npx prisma migrate dev --name migration_name
+
+# Supabase
+npx prisma db push
+
+# View database
+npx prisma studio
+```
+
+### Environment Variables
+- `.env.local` - Environment variables lokal
+- `.env.example` - Template environment variables
+
+## 🗄️ Database Options
+
+### 1. Supabase (Rekomendasi)
+- ✅ Gratis tier (500MB database)
+- ✅ PostgreSQL dengan dashboard
+- ✅ Real-time subscriptions
+- ✅ Built-in authentication
+- ✅ Auto-generated API
+
+### 2. Database Lokal
+- ✅ Full control
+- ✅ Offline development
+- ✅ Custom configuration
+
+### 3. Database Cloud Lainnya
+- **Neon** - PostgreSQL serverless
+- **Railway** - PostgreSQL hosting
+- **PlanetScale** - MySQL serverless
+
+## 🚀 Deployment
+
+Deploy ke platform pilihan:
+- **Vercel** - Auto-deploy dari GitHub
+- **Railway** - PostgreSQL included
+- **Render** - Easy setup
+- **Netlify** - Static hosting
+
+## 🐛 Troubleshooting
+
+### Error ESLint
+Jika ada error ESLint saat development:
+```bash
+# Jalankan tanpa linting
+npm run dev:no-lint
+```
+Lihat [ESLINT_FIX.md](ESLINT_FIX.md) untuk panduan lengkap.
+
+### Error: "ENOENT: no such file or directory, scandir 'migrations'"
+- **JANGAN gunakan `npx migrate`**
+- Gunakan `npx prisma db push` untuk Supabase
+- Gunakan `npx prisma migrate dev` untuk database lokal
+
+### Error: "Database connection failed"
+- Cek DATABASE_URL format
+- Pastikan database running
+- Verify credentials
+
+### Error: "OpenAI API key not found"
+- Pastikan `OPENAI_API_KEY` sudah diisi
+- Cek apakah API key valid
 
 ## 📞 Support
 
-Jika ada masalah atau pertanyaan:
-- Buat issue di GitHub: https://github.com/GlennAyden/mediaPembelajaran
-- Atau hubungi developer langsung
+Jika ada masalah:
+1. Cek console browser dan terminal
+2. Pastikan semua prasyarat terpenuhi
+3. Verify environment variables
+4. Cek database connection
+5. Lihat [SUPABASE_SETUP.md](SUPABASE_SETUP.md) untuk setup database
+6. Lihat dokumentasi untuk troubleshooting migration
 
 ---
 
-**Happy Learning! 🎉**
+**Happy Learning! 🎓**

@@ -1,0 +1,4 @@
+---
+description: Jika ingin ada yang berkaitan dengan mengedit .env maka buatkanlah env.example lalu hasil dari env.example tersebut akan selalu dimasukan kedalam .env jika memang terdapat perubahan
+alwaysApply: false
+---

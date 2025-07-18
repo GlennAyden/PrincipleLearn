@@ -5,6 +5,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './page.module.scss'
+import { supabase } from '@/lib/supabaseClient';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('')
@@ -16,25 +17,28 @@ export default function AdminLoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setLoading(true)
+    if (!email.trim() || !password.trim()) {
+      setError('Please fill both email and password.');
+      return;
+    }
+    setLoading(true);
     try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ email, password }),
-      })
-
-      if (res.ok) {
-        router.push('/admin/dashboard')
-      } else {
-        const data = await res.json()
-        setError(data.message || 'Login failed')
+      // Login via Supabase Auth
+      const { data, error: supaError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (supaError) {
+        throw new Error(supaError.message);
       }
-    } catch {
-      setError('An unexpected error occurred.')
+      // Assuming setUser and router.replace are defined elsewhere or will be added.
+      // For now, we'll just redirect to dashboard on success.
+      router.replace('/admin/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'Login failed. Please check your credentials.');
+      console.error('Login error:', err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 

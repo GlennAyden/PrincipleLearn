@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.scss";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { supabase } from '@/lib/supabaseClient';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -34,27 +35,16 @@ export default function SignUpPage() {
     setIsLoading(true);
     
     try {
-      // Call the registration API
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+      // Signup via Supabase Auth
+      const { data, error: supaError } = await supabase.auth.signUp({
+        email,
+        password,
       });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        // Handle specific error cases
-        if (response.status === 409) {
+      if (supaError) {
+        if (supaError.message.includes('User already registered')) {
           setError("An account with this email already exists. Please try signing in instead.");
-        } else if (response.status === 429) {
-          setError("Too many registration attempts. Please try again later.");
-        } else if (response.status === 400) {
-          setError(data.error || "Please check your input and try again.");
         } else {
-          setError(data.error || "Registration failed. Please try again.");
+          setError(supaError.message);
         }
         return;
       }
@@ -62,7 +52,7 @@ export default function SignUpPage() {
       // Set user in local storage with email
       setUser({ email });
       
-      // Navigate to request course page
+      // Redirect ke halaman verifikasi atau request course
       router.push("/request-course/step1");
     } catch (err: any) {
       setError("Network error. Please check your connection and try again.");
