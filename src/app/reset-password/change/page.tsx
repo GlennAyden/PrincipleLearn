@@ -1,12 +1,12 @@
 // src/app/reset-password/change/page.tsx
 "use client";
 
-import { useState, FormEvent, useEffect } from "react";
+import { Suspense, useState, FormEvent, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import styles from "../page.module.scss";
 
-export default function ChangePasswordPage() {
+function ChangePasswordContent() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -166,4 +166,12 @@ export default function ChangePasswordPage() {
       </div>
     </div>
   );
-} 
+}
+
+export default function ChangePasswordPage() {
+  return (
+    <Suspense>
+      <ChangePasswordContent />
+    </Suspense>
+  );
+}

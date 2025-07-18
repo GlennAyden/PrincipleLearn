@@ -40,9 +40,16 @@ psql -U postgres
 CREATE DATABASE principle_learn;
 \q
 
+<<<<<<< HEAD
 # Jalankan migrations (UNTUK DATABASE LOKAL)
 npx prisma migrate dev
 ```
+=======
+#### Opsi B: Database Cloud (Rekomendasi)
+1. **Supabase** (Gratis): https://supabase.com
+   - Sign up dan buat project baru
+   - Copy connection string dari Settings > Database
+>>>>>>> 5caecbc5b9af3522dde0e40bc0eb53536170354d
 
 #### Opsi B: Supabase (Rekomendasi)
 1. Buat akun di [Supabase](https://supabase.com)
@@ -56,8 +63,13 @@ Lihat [SUPABASE_SETUP.md](SUPABASE_SETUP.md) untuk panduan lengkap.
 ### 4. Environment Variables
 Buat file `.env.local`:
 ```env
+<<<<<<< HEAD
 # Database URL (lokal atau Supabase)
 DATABASE_URL="postgresql://postgres:password@localhost:5432/principle_learn"
+=======
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/principle_learn"
+>>>>>>> 5caecbc5b9af3522dde0e40bc0eb53536170354d
 # Atau untuk Supabase:
 # DATABASE_URL="postgresql://postgres:[password]@[host]:5432/postgres"
 
@@ -65,6 +77,13 @@ JWT_SECRET="your-secret-key"
 OPENAI_API_KEY="your-openai-api-key"
 EMAIL_USER="your-email@gmail.com"
 EMAIL_PASS="your-app-password"
+
+# Supabase (opsional)
+SUPABASE_URL="https://your-project.supabase.co"
+SUPABASE_ANON_KEY="your-anon-key"
+SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
 ```
 
 ### 5. Jalankan Aplikasi
