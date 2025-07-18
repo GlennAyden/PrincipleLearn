@@ -4,12 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "cross-env FAST_REFRESH=false next dev",
-<<<<<<< HEAD
     "dev:no-lint": "cross-env FAST_REFRESH=false next dev --no-lint",
     "build": "next build",
-=======
-    "build": "cross-env JWT_SECRET=dummy next build",
->>>>>>> 5caecbc5b9af3522dde0e40bc0eb53536170354d
     "start": "next start",
     "lint": "next lint"
   },
@@ -32,7 +28,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@supabase/supabase-js": "^2.52.0",
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20.17.44",

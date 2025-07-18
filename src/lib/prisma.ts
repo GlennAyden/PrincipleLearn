@@ -27,13 +27,7 @@ try {
 }
 
 declare global {
-<<<<<<< HEAD
-   
   var prisma: PrismaClient | undefined;
-=======
-  // eslint-disable-next-line no-var
-  var prisma: any
->>>>>>> 5caecbc5b9af3522dde0e40bc0eb53536170354d
 }
 
 // Use the Prisma instance initialised above
