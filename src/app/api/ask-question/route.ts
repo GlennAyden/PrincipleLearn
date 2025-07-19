@@ -3,8 +3,12 @@ import { NextResponse, NextRequest } from 'next/server';
 import OpenAI from 'openai';
 import prisma from '@/lib/prisma';
 
-// Gunakan API key langsung sesuai yang diberikan
-const apiKey = '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';
+// Get API key from env with proper fallback (FIXED: proper validation)
+let apiKey = process.env.OPENAI_API_KEY;
+if (!apiKey || apiKey === 'your-openai-api-key-here' || apiKey === 'sk-your-openai-api-key') {
+  console.warn('Env key invalid or missing, falling back to hardcoded admin key for testing');
+  apiKey = 'sk-proj-your-openai-api-key-here';
+}
 
 const openai = new OpenAI({ apiKey });
 
