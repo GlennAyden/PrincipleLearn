@@ -109,7 +109,15 @@ export default function RequestCourseStep3() {
       if (!contentType || !contentType.includes('application/json')) {
         const textResponse = await res.text();
         console.error('Non-JSON response received:', textResponse);
-        throw new Error(`Server returned non-JSON response. Status: ${res.status}`);
+        
+        // Handle specific error cases
+        if (res.status === 504) {
+          throw new Error('Course generation timed out. Please try again with a simpler topic or goal.');
+        } else if (res.status === 500) {
+          throw new Error('Server error occurred. Please try again in a moment.');
+        } else {
+          throw new Error(`Server returned non-JSON response. Status: ${res.status}. Please try again.`);
+        }
       }
       
       const data = await res.json();

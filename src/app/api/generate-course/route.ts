@@ -78,47 +78,67 @@ Topik spesifik yang ingin dipelajari: ${extraTopics || "Tidak ada preferensi khu
 Masalah nyata yang ingin dipecahkan: ${problem}
 Asumsi awal pengguna: ${assumption}
 
-## PANDUAN PEMBUATAN KONTEN
-1. Buat minimal 4-6 modul utama yang membangun pengetahuan secara bertahap
-2. Untuk setiap modul, buat 4-8 subtopik yang saling berkaitan
+## PANDUAN PEMBUATAN KONTEN (OPTIMIZED FOR SPEED)
+1. Buat 4-5 modul utama yang membangun pengetahuan secara bertahap
+2. Untuk setiap modul, buat 4-6 subtopik yang saling berkaitan
 3. Setiap subtopik harus memiliki:
    - Judul yang jelas dan deskriptif
-   - Overview komprehensif (3-5 kalimat) yang menjelaskan:
-     * Apa yang akan dipelajari
-     * Mengapa ini penting
-     * Bagaimana kaitannya dengan subtopik lain atau tujuan keseluruhan
-4. Pastikan konten sesuai dengan:
-   - Level pengetahuan pengguna (${level})
-   - Masalah nyata yang ingin dipecahkan
-   - Tujuan pembelajaran yang diinginkan
+   - Overview singkat (1-2 kalimat) yang menjelaskan konsep utama
+4. Pastikan konten sesuai dengan level ${level} dan tujuan pembelajaran
 
-## FORMAT OUTPUT
-Output harus berupa MURNI JSON array tanpa blok kode Markdown, dengan format:
+## FORMAT OUTPUT (SIMPLE)
+Output harus berupa MURNI JSON array tanpa blok kode Markdown:
 [
   {
     "module": "1. Judul Modul Lengkap", 
     "subtopics": [
-      {
-        "title": "1.1 Judul Subtopik yang Deskriptif",
-        "overview": "Overview yang informatif berisi 3-5 kalimat yang menjelaskan konsep utama, tujuan pembelajaran, dan relevansinya. Tambahkan contoh penerapan jika relevan. Jelaskan mengapa bagian ini penting untuk dikuasai dan bagaimana kaitannya dengan subtopik lain."
-      },
-      ...
+      "1.1 Judul Subtopik Deskriptif",
+      "1.2 Judul Subtopik Deskriptif",
+      "1.3 Judul Subtopik Deskriptif"
     ]
-  },
-  ...
+  }
 ]
       `
     };
 
     console.log('[Generate Course] Calling OpenAI API');
     
-    // 5. Panggil OpenAI dengan instruksi sistem + pengguna
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [systemMessage, userMessage] as any,
-      temperature: 0.7, // Sedikit variasi untuk kreativitas
-      max_tokens: 4000, // Meningkatkan jumlah token maksimum untuk respons yang lebih panjang
-    });
+    // 5. Panggil OpenAI dengan retry logic + timeout
+    let response;
+    let attempt = 0;
+    const maxAttempts = 2;
+    
+    while (attempt < maxAttempts) {
+      try {
+        attempt++;
+        console.log(`[Generate Course] Attempt ${attempt}/${maxAttempts}`);
+        
+        response = await Promise.race([
+          openai.chat.completions.create({
+            model: 'gpt-4o-mini',
+            messages: [systemMessage, userMessage] as any,
+            temperature: 0.7, 
+            max_tokens: 2000, // Further reduced for speed
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('OpenAI API timeout after 10 seconds')), 10000)
+          )
+        ]) as any;
+        
+        break; // Success, exit retry loop
+        
+      } catch (error: any) {
+        console.error(`[Generate Course] Attempt ${attempt} failed:`, error.message);
+        
+        if (attempt === maxAttempts) {
+          // Last attempt failed, throw error
+          throw new Error(`OpenAI API failed after ${maxAttempts} attempts: ${error.message}`);
+        }
+        
+        // Wait 1 second before retry
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
 
     console.log('[Generate Course] Received response from OpenAI');
     

@@ -10,6 +10,8 @@
 
 [functions]
   node_bundler = "esbuild"
+  # Extended timeout for course generation
+  timeout = 15
 
 # Next.js API Routes - REMOVE manual redirects, let Next.js plugin handle it
 # The @netlify/plugin-nextjs handles API routing automatically

@@ -6,7 +6,8 @@
       "Bash(npx prisma generate:*)",
       "Bash(git add:*)",
       "Bash(git push:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
