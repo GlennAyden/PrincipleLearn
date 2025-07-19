@@ -7,7 +7,12 @@
       "Bash(git add:*)",
       "Bash(git push:*)",
       "Bash(git reset:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npx prisma:*)",
+      "WebFetch(domain:suzlapyyvlmpwhpeirla.supabase.co)",
+      "Bash(node:*)",
+      "Bash(del test-db.js)",
+      "Bash(del test-prisma.js)"
     ],
     "deny": []
   }
