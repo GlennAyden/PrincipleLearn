@@ -2,6 +2,27 @@
   command = "npm run build"
   publish = ".next"
 
+[build.environment]
+  NODE_VERSION = "18"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Redirects untuk auth callback dan Next.js routing
+[[redirects]]
+  from = "/auth/callback"
+  to = "/dashboard"
+  status = 302
+  
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# SPA fallback untuk Next.js
 [[redirects]]
   from = "/*"
   to = "/index.html"
