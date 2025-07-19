@@ -6,6 +6,7 @@
     "dev": "cross-env FAST_REFRESH=false next dev",
     "dev:no-lint": "cross-env FAST_REFRESH=false next dev --no-lint",
     "build": "next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint"
   },
