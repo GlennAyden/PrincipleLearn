@@ -106,7 +106,7 @@ Output harus berupa MURNI JSON array tanpa blok kode Markdown:
     // 5. Panggil OpenAI dengan retry logic + timeout
     let response;
     let attempt = 0;
-    const maxAttempts = 2;
+    const maxAttempts = 3;
     
     while (attempt < maxAttempts) {
       try {
@@ -115,13 +115,13 @@ Output harus berupa MURNI JSON array tanpa blok kode Markdown:
         
         response = await Promise.race([
           openai.chat.completions.create({
-            model: 'gpt-4o-mini',
+            model: 'gpt-3.5-turbo',
             messages: [systemMessage, userMessage] as any,
             temperature: 0.7, 
-            max_tokens: 2000, // Further reduced for speed
+            max_tokens: 1500, // Reduced for faster response
           }),
           new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('OpenAI API timeout after 10 seconds')), 10000)
+            setTimeout(() => reject(new Error('OpenAI API timeout after 60 seconds')), 60000)
           )
         ]) as any;
         
@@ -135,8 +135,8 @@ Output harus berupa MURNI JSON array tanpa blok kode Markdown:
           throw new Error(`OpenAI API failed after ${maxAttempts} attempts: ${error.message}`);
         }
         
-        // Wait 1 second before retry
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Wait 2 seconds before retry with exponential backoff
+        await new Promise(resolve => setTimeout(resolve, 2000 * attempt));
       }
     }
 
