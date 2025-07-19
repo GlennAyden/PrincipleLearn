@@ -89,7 +89,10 @@ export default function RequestCourseStep3() {
       
       const res = await fetch('/api/generate-course', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: JSON.stringify({ 
           ...answers, 
           problem, 
@@ -98,8 +101,19 @@ export default function RequestCourseStep3() {
         }),
       });
       
+      console.log('API Response Status:', res.status);
+      console.log('API Response Headers:', res.headers.get('content-type'));
+      
+      // Check if response is actually JSON
+      const contentType = res.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const textResponse = await res.text();
+        console.error('Non-JSON response received:', textResponse);
+        throw new Error(`Server returned non-JSON response. Status: ${res.status}`);
+      }
+      
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to generate course');
+      if (!res.ok) throw new Error(data.error || `API Error: ${res.status}`);
 
       const outline = data.outline as ModuleOutline[];
       const newCourse: Course = {

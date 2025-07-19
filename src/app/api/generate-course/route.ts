@@ -1,7 +1,19 @@
 // src/app/api/generate-course/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 import prisma from '@/lib/prisma';
+
+// Add CORS headers for API
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+// Handle OPTIONS request for CORS
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 200, headers: corsHeaders });
+}
 
 // 1. Ambil API key dari env
 let apiKey = process.env.OPENAI_API_KEY;
@@ -15,12 +27,33 @@ if (!apiKey || apiKey.startsWith('sk-proj-')) {
 
 const openai = new OpenAI({ apiKey });
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   console.log('[Generate Course] Starting course generation process');
+  
   try {
+    // Check if request body is valid
+    let requestBody;
+    try {
+      requestBody = await req.json();
+    } catch (parseError) {
+      console.error('[Generate Course] Invalid JSON in request body:', parseError);
+      return NextResponse.json(
+        { error: 'Invalid JSON in request body' },
+        { status: 400 }
+      );
+    }
+
     // 3. Terima payload
-    const { topic, goal, level, extraTopics, problem, assumption, userId } =
-      await req.json();
+    const { topic, goal, level, extraTopics, problem, assumption, userId } = requestBody;
+    
+    // Validate required fields
+    if (!topic || !goal || !level) {
+      console.error('[Generate Course] Missing required fields:', { topic, goal, level });
+      return NextResponse.json(
+        { error: 'Missing required fields: topic, goal, or level' },
+        { status: 400 }
+      );
+    }
       
     console.log(`[Generate Course] Received request for topic: "${topic}" from user: ${userId || 'anonymous'}`);
 
@@ -160,14 +193,14 @@ Output harus berupa MURNI JSON array tanpa blok kode Markdown, dengan format:
 
     // 9. Kirim balik outline
     console.log('[Generate Course] Returning outline to client');
-    return NextResponse.json({ outline });
+    return NextResponse.json({ outline }, { headers: corsHeaders });
   } catch (err: any) {
     console.error('[Generate Course] Error generating course outline:', err);
     console.error('[Generate Course] Error details:', err.message);
     console.error('[Generate Course] Error stack:', err.stack);
     return NextResponse.json(
       { error: err.message || 'Failed to generate outline' },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }

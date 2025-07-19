@@ -11,19 +11,11 @@
 [functions]
   node_bundler = "esbuild"
 
-# Redirects untuk auth callback dan Next.js routing
+# Next.js API Routes - REMOVE manual redirects, let Next.js plugin handle it
+# The @netlify/plugin-nextjs handles API routing automatically
+
+# Auth callback redirect only
 [[redirects]]
   from = "/auth/callback"
   to = "/dashboard"
-  status = 302
-  
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-# SPA fallback untuk Next.js
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200 
+  status = 302 
